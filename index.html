@@ -331,10 +331,37 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, query, onSnapshot, orderBy, where, serverTimestamp, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 전역 변수 초기화 (Canvas 환경에서 제공됨)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+ // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA--nzAG6DKUTVZ8Bcq7e2J-Ha8Lf2uMMI",
+             authDomain: "autochecking-c4c22.firebaseapp.com",
+             projectId: "autochecking-c4c22",
+             storageBucket: "autochecking-c4c22.firebasestorage.app",
+             messagingSenderId: "439994089371",
+             appId: "1:439994089371:web:9ce9fe4665f1dcf5406b3e"
+        };
+
+// 이 앱의 고유 ID (Firebase App ID를 사용하면 일관성을 유지할 수 있습니다.)
+        const appId = firebaseConfig.appId;
+        // 초기 인증 토큰은 Canvas 환경에서만 주입되므로, 로컬 배포 시에는 null로 설정합니다.
+        const initialAuthToken = null;
+
+        let app;
+        let db;
+        let auth;
+        let currentUserId = 'loading...'; // 현재 사용자 ID
+        let rawData = []; // 원본 방문 예정자 데이터 (메모리)
+
+        // DOM 요소 가져오기
+        const messageBox = document.getElementById('messageBox');
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
         let app;
         let db;
