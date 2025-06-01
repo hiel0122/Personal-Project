@@ -345,30 +345,20 @@
              appId: "1:439994089371:web:9ce9fe4665f1dcf5406b3e"
         };
 
-// 이 앱의 고유 ID (Firebase App ID를 사용하면 일관성을 유지할 수 있습니다.)
-        const appId = firebaseConfig.appId;
-        // 초기 인증 토큰은 Canvas 환경에서만 주입되므로, 로컬 배포 시에는 null로 설정합니다.
-        const initialAuthToken = null;
+/ 이 앱의 고유 ID (Firebase App ID를 사용하면 일관성을 유지할 수 있습니다.)
+const appId = firebaseConfig.appId;
+// 초기 인증 토큰은 Canvas 환경에서 만 주입되므로, 로컬 배포 시에는 null로 설정합니다.
+const initialAuthToken = null;
 
-        let app;
-        let db;
-        let auth;
-        let currentUserId = 'loading...'; // 현재 사용자 ID
-        let rawData = []; // 원본 방문 예정자 데이터 (메모리)
+// Firebase 앱 초기화 및 서비스 변수 선언 (딱 한 번!)
+let app = initializeApp(firebaseConfig); // 👈 여기서 app을 초기화합니다.
+let db = getFirestore(app); // 👈 db도 여기서 초기화합니다.
+let auth = getAuth(app);   // 👈 auth도 여기서 초기화합니다.
 
-        // DOM 요소 가져오기
-        const messageBox = document.getElementById('messageBox');
+let currentUserId = 'loading...'; // 현재 사용자 ID
+let rawData = []; // 원본 방문 예정자 데이터 (메모리)
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-        let app;
-        let db;
-        let auth;
-        let currentUserId = 'loading...'; // 현재 사용자 ID
-        let rawData = []; // 원본 방문 예정자 데이터 (메모리)
-
-        // DOM 요소 가져오기
+// DOM 요소 가져오기 (각 요소는 한 번만 선언되어야 합니다.)
         const messageBox = document.getElementById('messageBox');
         const csvFileInput = document.getElementById('csvFileInput'); // CSV 파일 입력 필드
         const uploadCsvBtn = document.getElementById('uploadCsvBtn'); // CSV 업로드 버튼
